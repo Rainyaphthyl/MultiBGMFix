@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "multi_bgm_fix",
+    "name": "Multi BGM Fix",
+    "description": "Fix the multi-BGM overlapping bug.",
+    "version": "${modVersion}",
+    "mcversion": "${mcVersion}",
+    "url": "https://github.com/Rainyaphthyl/MultiBGMFix",
+    "updateUrl": "",
+    "authorList": [
+      "Naftalluvia"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

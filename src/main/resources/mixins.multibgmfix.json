@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "minVersion": "0.5.3",
+  "package": "io.github.rainyaphthyl.multibgmfix.mixin",
+  "refmap": "mixins.multibgmfix.refmap.json",
+  "mixins": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
