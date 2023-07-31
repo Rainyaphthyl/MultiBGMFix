@@ -4,6 +4,7 @@
   "package": "io.github.rainyaphthyl.multibgmfix.mixin",
   "refmap": "mixins.multibgmfix.refmap.json",
   "mixins": [
+    "AccessSoundManager",
     "MixinSoundHandler"
   ],
   "injectors": {
