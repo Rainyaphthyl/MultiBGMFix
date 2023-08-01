@@ -1,8 +1,11 @@
 package io.github.rainyaphthyl.multibgmfix.config;
 
+import com.mumfrey.liteloader.client.gui.GuiCheckbox;
 import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.modconfig.AbstractConfigPanel;
 import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
@@ -27,6 +30,24 @@ public class ModConfigPanel extends AbstractConfigPanel {
      */
     @Override
     protected void addOptions(ConfigPanelHost host) {
+        if (host == null) {
+            return;
+        }
+        int rangeWidth = host.getWidth();
+        mainSettings = ModSettings.INSTANCE;
+        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+        tempSettings.syncFrom(mainSettings);
+        int posY = 0;
+        int id = 0;
+        GuiCheckbox checkboxGlobalSwitch = addControl(new GuiCheckbox(id, 0, posY, I18n.format("multibgmfix.config.name.globalSwitch")),
+                control -> {
+                    control.checked = !control.checked;
+                    tempSettings.enabled = control.checked;
+                });
+        checkboxGlobalSwitch.checked = tempSettings.enabled;
+        if (checkboxGlobalSwitch.getButtonWidth() > rangeWidth) {
+            checkboxGlobalSwitch.setWidth(rangeWidth);
+        }
     }
 
     /**

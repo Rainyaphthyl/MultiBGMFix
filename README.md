@@ -20,6 +20,9 @@ This is a client-side mod for Minecraft 1.12.2, powered by liteloader.
 
 - [ChangeLog](ChangeLog.md)
 
+This mod fixes [MC-35856](https://bugs.mojang.com/browse/MC-35856)
+and [MC-102403](https://bugs.mojang.com/browse/MC-102403).
+
 ## Development
 
 ### Setup and Edit

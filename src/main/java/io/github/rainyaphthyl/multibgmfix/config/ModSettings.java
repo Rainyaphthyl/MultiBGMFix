@@ -28,7 +28,6 @@ public class ModSettings implements Exposable {
      * The setting field should be {@code public, non-static, non-final, non-transient}
      */
     private static final int FIELD_PATTERN = Modifier.PUBLIC;
-    @SuppressWarnings("unused")
     @Expose
     @SerializedName("enable-mod")
     public boolean enabled = true;
