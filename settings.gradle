@@ -1,1 +1,4 @@
+import java.text.SimpleDateFormat
+
 rootProject.name = 'MultiBGMFix'
+gradle.ext.buildTag = (new SimpleDateFormat("yyyyMMdd.HHmmss.SSS.ZZZZ", Locale.CANADA_FRENCH)).format(new Date())
