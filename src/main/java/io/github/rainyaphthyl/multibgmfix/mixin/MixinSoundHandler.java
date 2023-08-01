@@ -25,6 +25,8 @@ public abstract class MixinSoundHandler {
     @Shadow
     @Final
     private static Logger LOGGER;
+    @Unique
+    private boolean multiBGMFix$neverMissed = true;
 
     @Unique
     private static SoundSystem multiBGMFix$getSoundSystem(SoundManager sndManager) {
@@ -56,18 +58,19 @@ public abstract class MixinSoundHandler {
 
     @Redirect(method = "stopSounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundManager;stopAllSounds()V"))
     public void reloadOnStopSounds(SoundManager sndManager) {
-        if (ModSettings.INSTANCE.enabled && sndManager instanceof AccessSoundManager) {
+        if (ModSettings.INSTANCE.enabled) {
             Minecraft minecraft = Minecraft.getMinecraft();
-            if (minecraft.world != null) {
+            if (minecraft.world != null && sndManager instanceof AccessSoundManager) {
                 SoundSystem soundSystem = multiBGMFix$getSoundSystem(sndManager);
                 Map<String, ISound> playingSounds = ((AccessSoundManager) sndManager).getPlayingSounds();
-                boolean successful = soundSystem != null;
+                boolean successful = soundSystem != null && multiBGMFix$neverMissed;
                 Set<Map.Entry<String, ISound>> entrySet = playingSounds.entrySet();
                 Iterator<Map.Entry<String, ISound>> iterator = entrySet.iterator();
                 while (iterator.hasNext()) {
                     Map.Entry<String, ISound> entry = iterator.next();
                     ISound iSound = entry.getValue();
                     Sound sound = iSound.getSound();
+                    // minimum necessary fixing
                     if (sound.isStreaming() || iSound.canRepeat()) {
                         String sourceKey = entry.getKey();
                         if (successful) {
@@ -77,11 +80,14 @@ public abstract class MixinSoundHandler {
                             iterator.remove();
                         } else {
                             sndManager.reloadSoundSystem();
+                            multiBGMFix$neverMissed = true;
                             return;
                         }
                     }
                 }
             }
+        } else if (multiBGMFix$neverMissed) {
+            multiBGMFix$neverMissed = false;
         }
         sndManager.stopAllSounds();
     }
