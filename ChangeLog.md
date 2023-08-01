@@ -1,4 +1,4 @@
-# Multi BGM Fix 0.0.0
+# Multi BGM Fix 0.0.1
 
 This is a **pre-release** version.
 
@@ -10,18 +10,19 @@ This is a **pre-release** version.
 
 ### Mod Versions
 
-- Current version: `0.0.0`
-- Previous version: `null`
+- Current version: `0.0.1`
+- Previous version: `0.0.0`
 - Previous release version: `null`
 
 ## Abstract
 
-The first build version. Fix [MC-102403](https://bugs.mojang.com/browse/MC-102403) by automatically removing sources.
-
-> MC-102403: Persistent/unchangeable sounds after (re-)opening a world
+Bugfixes to the bug-fixing mod :P
 
 ## New Features
 
 ## Modified Features
+
+- Fix the `InvalidMixinException` of shadow field `LOGGER`;
+- Fix the bug that the force reloading fails when no sounds have been newly played;
 
 ## Code Changes
