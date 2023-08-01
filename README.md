@@ -11,9 +11,10 @@ This is a client-side mod for Minecraft 1.12.2, powered by liteloader.
 ### Deployment
 
 1. Confirm that your Minecraft version is `Java Edition 1.12.2`. If you want something in versions of `1.13+`,
-   press `ALT + F4`.
+   press `ALT + F4`. Actually, this mod is unnecessary in `1.13+`.
 2. Ensure that you have installed a liteloader for your Minecraft client.
-3. Download the latest release, which should be a LITEMOD file `mod-multibgmfix-<version>-mc1.12.2.litemod`.
+3. Download the latest release, which should be a LITEMOD
+   file `mod-multibgmfix-<version>-mc1.12.2[+<buildDate>].litemod`.
 4. Move the file into the `.minecraft/mods/` directory of your game, and then launch the game.
 
 ### Features and Functions
@@ -39,5 +40,6 @@ Before release, ensure the mod version is correct:
 
 Run your task by one of the following commands:
 
-- Run `gradle build`, and the release will be a file with postfix `.litemod` in the `build/libs/` directory.
+- Run `gradle build`, and the release will be a file with postfix `.litemod` in the [`build/libs/`](build/libs)
+  directory. (E.g. `mod-multibgmfix-0.0.0-mc1.12.2+20230801.182503.709.+0800.litemod`).
 - Run `gradle runClient` to test the mod on the IDE.

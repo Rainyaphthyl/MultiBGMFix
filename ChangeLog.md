@@ -1,4 +1,4 @@
-# Multi BGM Fix 0.0.0
+# Multi BGM Fix 0.0.1
 
 This is a **pre-release** version.
 
@@ -6,19 +6,23 @@ This is a **pre-release** version.
 
 ### Minecraft Versions
 
-- Supported Minecraft Version: `1.12.2`
+- Supported Minecraft version: `1.12.2`
 
 ### Mod Versions
 
-- Current Version: `0.0.0`
-- Previous Dev Version: `null`
-- Previous Build Version: `null`
-- Previous Release Version: `null`
+- Current version: `0.0.1`
+- Previous version: `0.0.0`
+- Previous release version: `null`
 
-### Abstract
+## Abstract
+
+Bugfixes to the bug-fixing mod :P
 
 ## New Features
 
 ## Modified Features
+
+- Fix the `InvalidMixinException` of shadow field `LOGGER`;
+- Fix the bug that the force reloading fails when no sounds have been newly played;
 
 ## Code Changes

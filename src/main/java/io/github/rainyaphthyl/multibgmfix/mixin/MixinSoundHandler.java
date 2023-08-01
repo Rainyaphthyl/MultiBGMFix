@@ -6,10 +6,9 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.Sound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.audio.SoundManager;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -22,9 +21,8 @@ import java.util.Set;
 
 @Mixin(SoundHandler.class)
 public abstract class MixinSoundHandler {
-    @Shadow
-    @Final
-    private static Logger LOGGER;
+    @Unique
+    private static final Logger multiBGMFix$LOGGER = LogManager.getLogger();
     @Unique
     private boolean multiBGMFix$neverMissed = true;
 
@@ -49,7 +47,7 @@ public abstract class MixinSoundHandler {
                     soundSystem = (SoundSystem) sndSystemObj;
                 }
             } catch (IllegalAccessException e) {
-                LOGGER.error(e.getMessage(), e);
+                multiBGMFix$LOGGER.error(e.getMessage(), e);
             }
             sysField.setAccessible(accessible);
         }
@@ -61,9 +59,14 @@ public abstract class MixinSoundHandler {
         if (ModSettings.INSTANCE.enabled) {
             Minecraft minecraft = Minecraft.getMinecraft();
             if (minecraft.world != null && sndManager instanceof AccessSoundManager) {
+                if (!multiBGMFix$neverMissed) {
+                    sndManager.reloadSoundSystem();
+                    multiBGMFix$neverMissed = true;
+                    return;
+                }
                 SoundSystem soundSystem = multiBGMFix$getSoundSystem(sndManager);
                 Map<String, ISound> playingSounds = ((AccessSoundManager) sndManager).getPlayingSounds();
-                boolean successful = soundSystem != null && multiBGMFix$neverMissed;
+                boolean successful = soundSystem != null;
                 Set<Map.Entry<String, ISound>> entrySet = playingSounds.entrySet();
                 Iterator<Map.Entry<String, ISound>> iterator = entrySet.iterator();
                 while (iterator.hasNext()) {
@@ -76,11 +79,10 @@ public abstract class MixinSoundHandler {
                         if (successful) {
                             soundSystem.stop(sourceKey);
                             soundSystem.removeSource(sourceKey);
-                            LOGGER.info("Remove source '{}' -> '{}'", sourceKey, sound.getSoundAsOggLocation());
+                            multiBGMFix$LOGGER.info("Remove source '{}' -> '{}'", sourceKey, sound.getSoundAsOggLocation());
                             iterator.remove();
                         } else {
                             sndManager.reloadSoundSystem();
-                            multiBGMFix$neverMissed = true;
                             return;
                         }
                     }
