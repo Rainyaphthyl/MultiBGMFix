@@ -59,9 +59,14 @@ public abstract class MixinSoundHandler {
         if (ModSettings.INSTANCE.enabled) {
             Minecraft minecraft = Minecraft.getMinecraft();
             if (minecraft.world != null && sndManager instanceof AccessSoundManager) {
+                if (!multiBGMFix$neverMissed) {
+                    sndManager.reloadSoundSystem();
+                    multiBGMFix$neverMissed = true;
+                    return;
+                }
                 SoundSystem soundSystem = multiBGMFix$getSoundSystem(sndManager);
                 Map<String, ISound> playingSounds = ((AccessSoundManager) sndManager).getPlayingSounds();
-                boolean successful = soundSystem != null && multiBGMFix$neverMissed;
+                boolean successful = soundSystem != null;
                 Set<Map.Entry<String, ISound>> entrySet = playingSounds.entrySet();
                 Iterator<Map.Entry<String, ISound>> iterator = entrySet.iterator();
                 while (iterator.hasNext()) {
@@ -78,7 +83,6 @@ public abstract class MixinSoundHandler {
                             iterator.remove();
                         } else {
                             sndManager.reloadSoundSystem();
-                            multiBGMFix$neverMissed = true;
                             return;
                         }
                     }

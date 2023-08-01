@@ -16,10 +16,13 @@ This is a **pre-release** version.
 
 ## Abstract
 
-Fix the `InvalidMixinException` of shadow field `LOGGER`.
+Bugfixes to the bug-fixing mod :P
 
 ## New Features
 
 ## Modified Features
+
+- Fix the `InvalidMixinException` of shadow field `LOGGER`;
+- Fix the bug that the force reloading fails when no sounds have been newly played;
 
 ## Code Changes
