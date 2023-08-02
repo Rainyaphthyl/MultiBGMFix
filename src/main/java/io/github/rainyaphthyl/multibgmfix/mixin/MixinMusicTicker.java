@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MusicTicker.class)
-public class MixinMusicTicker {
+public abstract class MixinMusicTicker {
     @Shadow
     @Final
     private Minecraft mc;
