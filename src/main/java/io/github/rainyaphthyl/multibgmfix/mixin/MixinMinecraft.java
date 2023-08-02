@@ -4,6 +4,7 @@ import io.github.rainyaphthyl.multibgmfix.config.ModSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.PlayerCapabilities;
+import org.spongepowered.asm.lib.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,7 @@ public abstract class MixinMinecraft {
      * @return creative or spectator as a creator
      */
     @Redirect(method = "getAmbientMusicType", at = @At(value = "FIELD",
-            target = "Lnet/minecraft/entity/player/PlayerCapabilities;isCreativeMode:Z"))
+            target = "Lnet/minecraft/entity/player/PlayerCapabilities;isCreativeMode:Z", opcode = Opcodes.GETFIELD))
     public boolean checkCreativeSpectator(@Nonnull PlayerCapabilities capabilities) {
         if (ModSettings.INSTANCE.spectatorAsCreative) {
             boolean flag;
