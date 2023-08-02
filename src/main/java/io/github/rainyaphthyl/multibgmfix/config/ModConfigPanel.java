@@ -6,8 +6,11 @@ import com.mumfrey.liteloader.modconfig.AbstractConfigPanel;
 import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+
+import javax.annotation.Nonnull;
 
 @SuppressWarnings("unused")
 public class ModConfigPanel extends AbstractConfigPanel {
@@ -21,6 +24,12 @@ public class ModConfigPanel extends AbstractConfigPanel {
     private static final int COLOR_LABEL = 0x00E0E0;
     private final ModSettings tempSettings = new ModSettings(ModSettings.INSTANCE);
     private ModSettings mainSettings = null;
+
+    private static void clampButtonWidth(@Nonnull GuiButton checkboxSpectator, int rangeWidth) {
+        if (checkboxSpectator.getButtonWidth() > rangeWidth) {
+            checkboxSpectator.setWidth(rangeWidth);
+        }
+    }
 
     /**
      * Stub for implementors, this is similar to {@link GuiScreen#initGui} and
@@ -37,17 +46,25 @@ public class ModConfigPanel extends AbstractConfigPanel {
         mainSettings = ModSettings.INSTANCE;
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         tempSettings.syncFrom(mainSettings);
+        int posX = 0;
         int posY = 0;
         int id = 0;
-        GuiCheckbox checkboxGlobalSwitch = addControl(new GuiCheckbox(id, 0, posY, I18n.format("multibgmfix.config.name.globalSwitch")),
+        GuiCheckbox checkboxGlobalSwitch = addControl(new GuiCheckbox(id, posX, posY, I18n.format("multibgmfix.config.name.globalSwitch")),
                 control -> {
                     control.checked = !control.checked;
                     tempSettings.enabled = control.checked;
                 });
         checkboxGlobalSwitch.checked = tempSettings.enabled;
-        if (checkboxGlobalSwitch.getButtonWidth() > rangeWidth) {
-            checkboxGlobalSwitch.setWidth(rangeWidth);
-        }
+        ++id;
+        posY += GENERAL_HEIGHT;
+        clampButtonWidth(checkboxGlobalSwitch, rangeWidth);
+        GuiCheckbox checkboxSpectator = addControl(new GuiCheckbox(id, posX, posY, I18n.format("multibgmfix.config.name.spectatorAsCreative")),
+                control -> {
+                    control.checked = !control.checked;
+                    tempSettings.spectatorAsCreative = control.checked;
+                });
+        checkboxSpectator.checked = tempSettings.spectatorAsCreative;
+        clampButtonWidth(checkboxSpectator, rangeWidth);
     }
 
     /**
