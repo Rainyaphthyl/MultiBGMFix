@@ -6,11 +6,8 @@ import com.mumfrey.liteloader.modconfig.AbstractConfigPanel;
 import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
-
-import javax.annotation.Nonnull;
 
 @SuppressWarnings("unused")
 public class ModConfigPanel extends AbstractConfigPanel {
@@ -24,12 +21,6 @@ public class ModConfigPanel extends AbstractConfigPanel {
     private static final int COLOR_LABEL = 0x00E0E0;
     private final ModSettings tempSettings = new ModSettings(ModSettings.INSTANCE);
     private ModSettings mainSettings = null;
-
-    private static void clampButtonWidth(@Nonnull GuiButton checkboxSpectator, int rangeWidth) {
-        if (checkboxSpectator.getButtonWidth() > rangeWidth) {
-            checkboxSpectator.setWidth(rangeWidth);
-        }
-    }
 
     /**
      * Stub for implementors, this is similar to {@link GuiScreen#initGui} and
@@ -57,14 +48,20 @@ public class ModConfigPanel extends AbstractConfigPanel {
         checkboxGlobalSwitch.checked = tempSettings.enabled;
         ++id;
         posY += GENERAL_HEIGHT;
-        clampButtonWidth(checkboxGlobalSwitch, rangeWidth);
         GuiCheckbox checkboxSpectator = addControl(new GuiCheckbox(id, posX, posY, I18n.format("multibgmfix.config.name.spectatorAsCreative")),
                 control -> {
                     control.checked = !control.checked;
                     tempSettings.spectatorAsCreative = control.checked;
                 });
         checkboxSpectator.checked = tempSettings.spectatorAsCreative;
-        clampButtonWidth(checkboxSpectator, rangeWidth);
+        ++id;
+        posY += GENERAL_HEIGHT;
+        GuiCheckbox checkboxMessageSwitch = addControl(new GuiCheckbox(id, posX, posY, I18n.format("multibgmfix.config.name.enableMusicMessage")),
+                control -> {
+                    control.checked = !control.checked;
+                    tempSettings.musicMessageEnabled = control.checked;
+                });
+        checkboxMessageSwitch.checked = tempSettings.musicMessageEnabled;
     }
 
     /**

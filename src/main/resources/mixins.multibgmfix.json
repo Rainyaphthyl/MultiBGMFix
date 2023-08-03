@@ -5,6 +5,7 @@
   "refmap": "mixins.multibgmfix.refmap.json",
   "mixins": [
     "AccessGuiIngame",
+    "AccessSoundHandler",
     "AccessSoundManager",
     "MixinMinecraft",
     "MixinMusicTicker",

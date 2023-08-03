@@ -1,6 +1,7 @@
 multibgmfix.config.title=Configuration of Multi BGM Fix
 multibgmfix.config.name.globalSwitch=Fix the overlapping music
 multibgmfix.config.name.spectatorAsCreative=Spectator plays creative music
+multibgmfix.config.name.enableMusicMessage=Music message overlay
 
 multibgmfix.music.null=Unknown Music
 multibgmfix.music.calm1=C418 - Minecraft
