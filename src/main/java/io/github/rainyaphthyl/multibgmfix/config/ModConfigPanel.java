@@ -9,7 +9,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("unused")
 public class ModConfigPanel extends AbstractConfigPanel {
     private static final int GENERAL_HEIGHT = 16;
     private static final int CHECKBOX_HEIGHT = 12;
@@ -37,17 +36,27 @@ public class ModConfigPanel extends AbstractConfigPanel {
         mainSettings = ModSettings.INSTANCE;
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         tempSettings.syncFrom(mainSettings);
+        int posX = 0;
         int posY = 0;
         int id = 0;
-        GuiCheckbox checkboxGlobalSwitch = addControl(new GuiCheckbox(id, 0, posY, I18n.format("multibgmfix.config.name.globalSwitch")),
+        //region main fix switch
+        GuiCheckbox checkboxGlobalSwitch = addControl(new GuiCheckbox(id, posX, posY, I18n.format("multibgmfix.config.name.globalSwitch")),
                 control -> {
                     control.checked = !control.checked;
                     tempSettings.enabled = control.checked;
                 });
         checkboxGlobalSwitch.checked = tempSettings.enabled;
-        if (checkboxGlobalSwitch.getButtonWidth() > rangeWidth) {
-            checkboxGlobalSwitch.setWidth(rangeWidth);
-        }
+        //endregion
+        ++id;
+        posY += GENERAL_HEIGHT;
+        //region message switch
+        GuiCheckbox checkboxMessageSwitch = addControl(new GuiCheckbox(id, posX, posY, I18n.format("multibgmfix.config.name.enableMusicMessage")),
+                control -> {
+                    control.checked = !control.checked;
+                    tempSettings.musicMessageEnabled = control.checked;
+                });
+        checkboxMessageSwitch.checked = tempSettings.musicMessageEnabled;
+        //endregion
     }
 
     /**

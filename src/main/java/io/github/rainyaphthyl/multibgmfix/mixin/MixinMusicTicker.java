@@ -1,5 +1,6 @@
 package io.github.rainyaphthyl.multibgmfix.mixin;
 
+import io.github.rainyaphthyl.multibgmfix.config.ModSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MusicTicker;
@@ -25,7 +26,7 @@ public abstract class MixinMusicTicker {
 
     @Inject(method = "playMusic", at = @At(value = "RETURN"))
     public void setMusicPlayingMessage(MusicTicker.MusicType requestedMusicType, CallbackInfo ci) {
-        if (mc.world != null) {
+        if (ModSettings.INSTANCE.musicMessageEnabled && mc.world != null) {
             Sound sound = currentMusic.getSound();
             if (!SoundHandler.MISSING_SOUND.equals(sound)) {
                 String pathName = sound.getSoundLocation().getPath();

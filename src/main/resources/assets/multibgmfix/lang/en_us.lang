@@ -1,5 +1,6 @@
 multibgmfix.config.title=Configuration of Multi BGM Fix
 multibgmfix.config.name.globalSwitch=Enable the Fix
+multibgmfix.config.name.enableMusicMessage=Music message overlay
 
 multibgmfix.music.null=Unknown Music
 multibgmfix.music.calm1=C418 - Minecraft

@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 @ExposableOptions(strategy = ConfigStrategy.Unversioned, filename = ModSettings.FILE_NAME)
-public class ModSettings implements Exposable {
+public final class ModSettings implements Exposable {
     public static final ModSettings INSTANCE = new ModSettings();
     public static final String FILE_NAME = "multibgmfix.json";
     public static final String BACKUP_POSTFIX = ".bak";
@@ -31,6 +31,9 @@ public class ModSettings implements Exposable {
     @Expose
     @SerializedName("enable-mod")
     public boolean enabled = true;
+    @Expose
+    @SerializedName("enable-music-message")
+    public boolean musicMessageEnabled = true;
 
     public ModSettings() {
     }
