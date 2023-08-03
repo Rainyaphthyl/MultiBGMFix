@@ -4,8 +4,10 @@
   "package": "io.github.rainyaphthyl.multibgmfix.mixin",
   "refmap": "mixins.multibgmfix.refmap.json",
   "mixins": [
+    "AccessGuiIngame",
     "AccessSoundManager",
     "MixinMinecraft",
+    "MixinMusicTicker",
     "MixinSoundHandler"
   ],
   "injectors": {
