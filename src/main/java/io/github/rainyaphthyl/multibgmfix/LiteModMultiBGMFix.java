@@ -14,7 +14,7 @@ import java.io.File;
 @SuppressWarnings("unused")
 public class LiteModMultiBGMFix implements Configurable, InitCompleteListener {
     public static final String NAME = "Multi BGM Fix";
-    public static final String VERSION = "0.1.2-alpha.0";
+    public static final String VERSION = "0.1.2";
     public static final ModVersion versionObj = ModVersion.getVersion(VERSION);
 
     public ModSettings getSettings() {
