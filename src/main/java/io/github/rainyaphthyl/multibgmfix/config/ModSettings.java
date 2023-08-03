@@ -32,6 +32,10 @@ public class ModSettings implements Exposable {
     @SerializedName("enable-mod")
     public boolean enabled = true;
 
+    @Expose
+    @SerializedName("spectator-as-creative")
+    public boolean spectatorAsCreative = true;
+
     public ModSettings() {
     }
 

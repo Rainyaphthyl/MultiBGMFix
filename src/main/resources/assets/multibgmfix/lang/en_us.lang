@@ -1,2 +1,3 @@
 multibgmfix.config.title=Configuration of Multi BGM Fix
-multibgmfix.config.name.globalSwitch=Enable the Fix
+multibgmfix.config.name.globalSwitch=Fix the overlapping music
+multibgmfix.config.name.spectatorAsCreative=Play creative music for permitted spectator
