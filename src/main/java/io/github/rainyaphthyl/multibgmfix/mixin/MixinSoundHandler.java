@@ -1,7 +1,6 @@
 package io.github.rainyaphthyl.multibgmfix.mixin;
 
 import io.github.rainyaphthyl.multibgmfix.config.ModSettings;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.Sound;
 import net.minecraft.client.audio.SoundHandler;
@@ -57,8 +56,7 @@ public abstract class MixinSoundHandler {
     @Redirect(method = "stopSounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundManager;stopAllSounds()V"))
     public void reloadOnStopSounds(SoundManager sndManager) {
         if (ModSettings.INSTANCE.enabled) {
-            Minecraft minecraft = Minecraft.getMinecraft();
-            if (minecraft.world != null && sndManager instanceof AccessSoundManager) {
+            if (sndManager instanceof AccessSoundManager) {
                 if (!multiBGMFix$neverMissed) {
                     sndManager.reloadSoundSystem();
                     multiBGMFix$neverMissed = true;
