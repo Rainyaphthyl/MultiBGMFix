@@ -10,8 +10,8 @@ This is a **pre-release** version.
 
 ### Mod Versions
 
-- Current version: `0.1.1`
-- Previous version: `0.1.0`
+- Current version: `0.1.2`
+- Previous version: `0.1.1`
 - Previous release version: `null`
 
 ## Abstract
@@ -23,3 +23,5 @@ This is a **pre-release** version.
 - Fix music overlap in main menu.
 
 ## Code Changes
+
+- Fix mixin fatal.
