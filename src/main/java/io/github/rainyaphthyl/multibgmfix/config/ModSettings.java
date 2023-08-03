@@ -34,7 +34,6 @@ public final class ModSettings implements Exposable {
     @Expose
     @SerializedName("enable-music-message")
     public boolean musicMessageEnabled = true;
-
     @Expose
     @SerializedName("spectator-as-creative")
     public boolean spectatorAsCreative = true;
