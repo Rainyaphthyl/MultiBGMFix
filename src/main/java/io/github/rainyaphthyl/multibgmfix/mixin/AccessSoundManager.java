@@ -11,4 +11,7 @@ import java.util.Map;
 public interface AccessSoundManager {
     @Accessor(value = "playingSounds")
     Map<String, ISound> getPlayingSounds();
+
+    @Accessor(value = "invPlayingSounds")
+    Map<ISound, String> getInvPlayingSounds();
 }
