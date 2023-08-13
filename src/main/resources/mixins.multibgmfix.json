@@ -9,7 +9,8 @@
     "AccessSoundManager",
     "MixinMinecraft",
     "MixinMusicTicker",
-    "MixinSoundHandler"
+    "MixinSoundHandler",
+    "MixinSoundManager"
   ],
   "injectors": {
     "defaultRequire": 1
