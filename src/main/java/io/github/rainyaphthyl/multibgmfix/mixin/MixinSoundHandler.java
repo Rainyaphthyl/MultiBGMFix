@@ -1,12 +1,11 @@
 package io.github.rainyaphthyl.multibgmfix.mixin;
 
 import io.github.rainyaphthyl.multibgmfix.config.ModSettings;
+import io.github.rainyaphthyl.multibgmfix.util.GenericHelper;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.Sound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.audio.SoundManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,8 +19,6 @@ import java.util.Set;
 
 @Mixin(SoundHandler.class)
 public abstract class MixinSoundHandler {
-    @Unique
-    private static final Logger multiBGMFix$LOGGER = LogManager.getLogger();
     @Unique
     private boolean multiBGMFix$neverMissed = true;
 
@@ -46,7 +43,7 @@ public abstract class MixinSoundHandler {
                     soundSystem = (SoundSystem) sndSystemObj;
                 }
             } catch (IllegalAccessException e) {
-                multiBGMFix$LOGGER.error(e.getMessage(), e);
+                GenericHelper.LOGGER.error(e.getMessage(), e);
             }
             sysField.setAccessible(accessible);
         }
@@ -55,8 +52,9 @@ public abstract class MixinSoundHandler {
 
     @Redirect(method = "stopSounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundManager;stopAllSounds()V"))
     public void reloadOnStopSounds(SoundManager sndManager) {
+        boolean mixedIn = sndManager instanceof AccessSoundManager;
         if (ModSettings.INSTANCE.enabled) {
-            if (sndManager instanceof AccessSoundManager) {
+            if (mixedIn) {
                 if (!multiBGMFix$neverMissed) {
                     sndManager.reloadSoundSystem();
                     multiBGMFix$neverMissed = true;
@@ -77,7 +75,7 @@ public abstract class MixinSoundHandler {
                         if (successful) {
                             soundSystem.stop(sourceKey);
                             soundSystem.removeSource(sourceKey);
-                            multiBGMFix$LOGGER.info("Remove source '{}' -> '{}'", sourceKey, sound.getSoundAsOggLocation());
+                            GenericHelper.LOGGER.info("Remove source '{}' -> '{}'", sourceKey, sound.getSoundAsOggLocation());
                             iterator.remove();
                         } else {
                             sndManager.reloadSoundSystem();
@@ -89,6 +87,14 @@ public abstract class MixinSoundHandler {
         } else if (multiBGMFix$neverMissed) {
             multiBGMFix$neverMissed = false;
         }
-        sndManager.stopAllSounds();
+        if (mixedIn) {
+            boolean loaded = ((AccessSoundManager) sndManager).isLoaded();
+            ((AccessSoundManager) sndManager).setLoaded(true);
+            sndManager.stopAllSounds();
+            ((AccessSoundManager) sndManager).setLoaded(loaded);
+        } else {
+            sndManager.stopAllSounds();
+            GenericHelper.LOGGER.error("Mixin failed: '{}'", getClass());
+        }
     }
 }
