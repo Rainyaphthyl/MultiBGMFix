@@ -52,9 +52,8 @@ public abstract class MixinSoundHandler {
 
     @Redirect(method = "stopSounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundManager;stopAllSounds()V"))
     public void reloadOnStopSounds(SoundManager sndManager) {
-        boolean mixedIn = sndManager instanceof AccessSoundManager;
         if (ModSettings.INSTANCE.enabled) {
-            if (mixedIn) {
+            if (sndManager instanceof AccessSoundManager) {
                 if (!multiBGMFix$neverMissed) {
                     sndManager.reloadSoundSystem();
                     multiBGMFix$neverMissed = true;
@@ -83,18 +82,17 @@ public abstract class MixinSoundHandler {
                         }
                     }
                 }
+                boolean loaded = ((AccessSoundManager) sndManager).isLoaded();
+                ((AccessSoundManager) sndManager).setLoaded(true);
+                sndManager.stopAllSounds();
+                ((AccessSoundManager) sndManager).setLoaded(loaded);
+                return;
+            } else {
+                GenericHelper.LOGGER.error("Mixin error in '{}'", getClass());
             }
         } else if (multiBGMFix$neverMissed) {
             multiBGMFix$neverMissed = false;
         }
-        if (mixedIn) {
-            boolean loaded = ((AccessSoundManager) sndManager).isLoaded();
-            ((AccessSoundManager) sndManager).setLoaded(true);
-            sndManager.stopAllSounds();
-            ((AccessSoundManager) sndManager).setLoaded(loaded);
-        } else {
-            sndManager.stopAllSounds();
-            GenericHelper.LOGGER.error("Mixin failed: '{}'", getClass());
-        }
+        sndManager.stopAllSounds();
     }
 }

@@ -1,5 +1,6 @@
 package io.github.rainyaphthyl.multibgmfix.mixin;
 
+import io.github.rainyaphthyl.multibgmfix.config.ModSettings;
 import io.github.rainyaphthyl.multibgmfix.util.GenericHelper;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.Sound;
@@ -27,12 +28,11 @@ public abstract class MixinSoundManager {
 
     @Redirect(method = "playSound", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/Sound;isStreaming()Z"))
     public boolean markSoundStreaming(@Nonnull Sound sound) {
-        if (sound.isStreaming()) {
+        boolean streaming = sound.isStreaming();
+        if (ModSettings.INSTANCE.enabled && streaming) {
             multiBGMFix$currStreaming = true;
-            return true;
-        } else {
-            return false;
         }
+        return streaming;
     }
 
     @Inject(method = "playSound", at = @At(value = "FIELD", target = "Lnet/minecraft/client/audio/SoundManager;categorySounds:Lcom/google/common/collect/Multimap;", opcode = Opcodes.GETFIELD))

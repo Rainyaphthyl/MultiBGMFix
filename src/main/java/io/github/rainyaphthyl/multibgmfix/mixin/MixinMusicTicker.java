@@ -29,25 +29,27 @@ public abstract class MixinMusicTicker {
 
     @Inject(method = "playMusic", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundHandler;playSound(Lnet/minecraft/client/audio/ISound;)V"))
     public void removeExistingMusic(MusicTicker.MusicType requestedMusicType, CallbackInfo ci) {
-        Multimap<SoundCategory, String> categorySounds = null;
-        SoundHandler soundHandler = mc.getSoundHandler();
-        SoundManager soundManager = null;
-        if (soundHandler instanceof AccessSoundHandler) {
-            soundManager = ((AccessSoundHandler) soundHandler).getSoundManager();
-            if (soundManager instanceof AccessSoundManager) {
-                categorySounds = ((AccessSoundManager) soundManager).getCategorySounds();
+        if (ModSettings.INSTANCE.enabled) {
+            Multimap<SoundCategory, String> categorySounds = null;
+            SoundHandler soundHandler = mc.getSoundHandler();
+            SoundManager soundManager = null;
+            if (soundHandler instanceof AccessSoundHandler) {
+                soundManager = ((AccessSoundHandler) soundHandler).getSoundManager();
+                if (soundManager instanceof AccessSoundManager) {
+                    categorySounds = ((AccessSoundManager) soundManager).getCategorySounds();
+                }
             }
-        }
-        if (categorySounds != null && categorySounds.containsKey(SoundCategory.MUSIC)) {
-            Collection<String> keySetRemoved = categorySounds.removeAll(SoundCategory.MUSIC);
-            Map<String, ISound> playingSounds = ((AccessSoundManager) soundManager).getPlayingSounds();
-            for (String sourceKey : keySetRemoved) {
-                ISound iSound = playingSounds.get(sourceKey);
-                soundHandler.stopSound(iSound);
-                playingSounds.remove(sourceKey, iSound);
-                Sound sound = iSound.getSound();
-                ResourceLocation oggLocation = sound.getSoundAsOggLocation();
-                GenericHelper.LOGGER.warn("Remove redundant music source '{}' -> '{}'", sourceKey, oggLocation);
+            if (categorySounds != null && categorySounds.containsKey(SoundCategory.MUSIC)) {
+                Collection<String> keySetRemoved = categorySounds.removeAll(SoundCategory.MUSIC);
+                Map<String, ISound> playingSounds = ((AccessSoundManager) soundManager).getPlayingSounds();
+                for (String sourceKey : keySetRemoved) {
+                    ISound iSound = playingSounds.get(sourceKey);
+                    soundHandler.stopSound(iSound);
+                    playingSounds.remove(sourceKey, iSound);
+                    Sound sound = iSound.getSound();
+                    ResourceLocation oggLocation = sound.getSoundAsOggLocation();
+                    GenericHelper.LOGGER.warn("Remove redundant music source '{}' -> '{}'", sourceKey, oggLocation);
+                }
             }
         }
     }
