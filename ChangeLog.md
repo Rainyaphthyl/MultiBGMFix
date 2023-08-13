@@ -1,4 +1,4 @@
-# Multi BGM Fix 0.1.1
+# Multi BGM Fix 0.1.3
 
 This is a **pre-release** version.
 
@@ -10,8 +10,8 @@ This is a **pre-release** version.
 
 ### Mod Versions
 
-- Current version: `0.1.2`
-- Previous version: `0.1.1`
+- Current version: `0.1.3`
+- Previous version: `0.1.2`
 - Previous release version: `null`
 
 ## Abstract
@@ -20,8 +20,6 @@ This is a **pre-release** version.
 
 ## Modified Features
 
-- Fix music overlap in main menu.
+- Try to fix music overlap in main menu, again.
 
 ## Code Changes
-
-- Fix mixin fatal.
