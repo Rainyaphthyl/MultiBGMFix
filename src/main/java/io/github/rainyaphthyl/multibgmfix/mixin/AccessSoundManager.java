@@ -14,4 +14,10 @@ public interface AccessSoundManager {
 
     @Accessor(value = "invPlayingSounds")
     Map<ISound, String> getInvPlayingSounds();
+
+    @Accessor(value = "loaded")
+    boolean isLoaded();
+
+    @Accessor(value = "loaded")
+    void setLoaded(boolean loadedIn);
 }
